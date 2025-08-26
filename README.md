@@ -139,7 +139,7 @@ Please report issues on our [SourceForge project page](https://sourceforge.net/p
 
 ## 📄 License
 
-HTServeFS is released under the MIT License. See LICENSE file for details.
+HTServeFS is freeware software. Home and commercial use are permitted.
 
 ## 🔗 Links
 
