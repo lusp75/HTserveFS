@@ -2,25 +2,29 @@
 
 
 
-**Version:** 1.0.1  
-**Status:** Stable Release  
+**Version:** 1.0.2  
+**Status:** Public Release (sources hidden — executables and documentation only)  
 **Platform:** Windows, Linux, macOS
 
 ## 🚀 Overview
 
 HTServeFS is a modern, high-performance file server solution designed for fast and secure file transfers. Built with Go and React, it provides a web-based interface for managing and sharing files with advanced security features and real-time monitoring.
 
-## ✅ Stable Release
+## ✅ Public Release
 
-**HTServeFS 1.0.1 is now a stable release ready for production use.**
+**HTServeFS 1.0.2 is a public release. The public repository exposes only distributable files (executables), documentation and essential configuration examples — source code has been removed from the public tree.**
 
-- ✅ **Fully tested** and optimized for production environments
-- 🔧 **All core features** are complete and stable
-- 📝 **Regular updates** with new features and improvements
-- 🚀 **Recommended for production** and critical environments
-- 🛡️ **Enhanced security** and performance optimizations
+This release focuses on making the application accessible from other machines on the local network and publishing a clean distributable package.
 
-We continue to welcome your feedback and feature requests!
+Key highlights:
+
+- ✅ Public release artifacts: executables, README, changelog and minimal configuration examples
+- 🔒 Source code is hidden from the public repository (kept private)
+- 🌐 CORS fix enabling remote LAN connections (allowing 192.168.x.x, 10.x.x.x, 172.x.x.x)
+- 🔐 HTTPS certificate generator updated to include local IP addresses automatically (self-signed)
+- ⚠️ Note: the certificate is self-signed — browsers will show a warning; accept the exception to continue
+
+We continue to welcome your feedback and bug reports via GitHub Issues.
 
 ## ✨ Key Features
 
