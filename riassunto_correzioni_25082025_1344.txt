@@ -1,0 +1,41 @@
+RIASSUNTO CORREZIONI HTSERVEFS - 25/08/2025 ore 13:44
+=======================================================
+
+PROBLEMI RISOLTI:
+
+1. RIMOSSO TESTO DEBUG DALLE IMPOSTAZIONI SERVER
+   - File modificato: src/pages/Settings.tsx
+   - Rimossa sezione "Architettura Sistema" con informazioni sui server di sviluppo
+   - Eliminati riferimenti a "Frontend React: http://localhost:5173" e "Backend Express"
+   - L'interfaccia delle impostazioni è ora più pulita e professionale
+
+2. CORREZIONE FUNZIONE "ESCI" NELLA TRAY
+   - File modificato: tray.go
+   - Aggiunta chiamata a stopServer() prima di systray.Quit()
+   - Ora quando si clicca "Esci" dalla tray, il server viene fermato completamente
+   - Risolto il problema del server che rimaneva attivo dopo la chiusura dell'icona
+
+3. CORREZIONE ERRORE FILE EXPLORER SENZA CARTELLE
+   - File modificato: src/pages/FileExplorer.tsx
+   - Cambiato selectedShare da 'Shared' hardcoded a stringa vuota
+   - Aggiunto useEffect per impostare automaticamente la prima share disponibile
+   - Rimosso fetchFiles() dall'inizializzazione per evitare richieste con share inesistenti
+   - Risolto l'errore "Errore nella richiesta" quando non ci sono cartelle configurate
+
+4. ANALISI LOG E IDENTIFICAZIONE PROBLEMI
+   - Esaminato file htservefs.log
+   - Identificato errore "share not found for path=Shared" come causa principale
+   - Il file explorer cercava una cartella 'Shared' che non esisteva quando non erano configurate cartelle
+   - Problema risolto con le modifiche al punto 3
+
+FILE GENERATI:
+- htservefs-fixed.exe (23.7 MB) - Nuovo eseguibile con tutte le correzioni
+- Frontend ricompilato in dist/ con le modifiche all'interfaccia
+
+TEST NECESSARI:
+1. Verificare che le impostazioni server non mostrino più il testo di debug
+2. Testare che "Esci" dalla tray fermi completamente il server
+3. Verificare che il file explorer funzioni correttamente anche senza cartelle configurate
+4. Testare l'aggiunta di cartelle e la navigazione nel file explorer
+
+TUTTE LE CORREZIONI SONO STATE IMPLEMENTATE E L'APPLICAZIONE È PRONTA PER IL TEST.

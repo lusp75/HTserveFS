@@ -1,0 +1,62 @@
+HTServeFS - Changelog Versione 1.0.1
+=====================================
+
+Data di rilascio: 25 Agosto 2025
+Tipo di rilascio: Stable Release
+
+## Novità e Miglioramenti
+
+### 🎯 Interfaccia Utente
+- **Rimossa visualizzazione credenziali di default**: Eliminato completamente il testo che mostrava le credenziali di default (admin/admin, user/password, guest/guest) dalla pagina di login per maggiore sicurezza
+- **Migliorato testo guida cartelle condivise**: Aggiornati gli esempi per Windows con percorsi come "C:\cartella" o "C:\" invece del generico "/path/to/folder"
+- **Interfaccia più pulita**: Rimosso il testo di debug dalle impostazioni del server per un'esperienza utente più professionale
+
+### ⚙️ Configurazione e Valori di Default
+- **Logging ottimizzato**: Livello di default impostato a "debug" con dimensione massima file di log di 5MB
+- **Sicurezza migliorata**: Soglia di lockout impostata a 5 tentativi con durata di 15 minuti
+- **Cartella condivisa di default**: Impostata su "C:\" per maggiore compatibilità con Windows
+- **Utenti predefiniti aggiornati**: 
+  - admin/admin (ruolo: admin)
+  - user/password (ruolo: read-write)
+  - Rimosso completamente l'utente "guest"
+
+### 🔧 Correzioni di Bug
+- **Risolto errore File Explorer**: Corretto il problema quando non ci sono cartelle configurate, ora inizializza correttamente con la prima share disponibile
+- **Migliorata gestione tray**: La funzione "Esci" ora ferma correttamente il server prima di chiudere l'applicazione
+- **Gestione errori migliorata**: Migliore handling degli errori "share not found" nel file explorer
+
+### 📦 Aggiornamenti Tecnici
+- **Versione aggiornata**: Tutti i riferimenti alla versione aggiornati da "1.0.0-beta" a "1.0.1"
+- **Stato di rilascio**: Passaggio da "Work in Progress - Beta Release" a "Stable Release"
+- **Documentazione aggiornata**: README e file di configurazione allineati alla nuova versione
+
+### 🏗️ File Modificati
+- `src/components/auth/LoginForm.tsx` - Rimossa sezione credenziali di default
+- `src/pages/Settings.tsx` - Aggiornato testo guida e rimosso debug
+- `src/pages/FileExplorer.tsx` - Correzione inizializzazione share
+- `tray.go` - Migliorata funzione di uscita
+- `main.go` - Aggiornati valori di default e versione
+- `src/constants/version.ts` - Aggiornata versione frontend
+- `latest.json` - Aggiornate informazioni di rilascio
+- `README.md` - Aggiornato stato e versione
+- `api/config/config.ts` - Aggiornati valori di default backend
+
+## Note per l'Aggiornamento
+
+- Questa versione è ora considerata stabile e raccomandata per ambienti di produzione
+- I nuovi valori di default si applicano solo alle nuove installazioni
+- Le configurazioni esistenti non vengono modificate automaticamente
+- Si consiglia di verificare le impostazioni di sicurezza dopo l'aggiornamento
+
+## Prossimi Passi
+
+- Testare tutte le funzionalità con la nuova configurazione
+- Verificare il corretto funzionamento della tray e dell'uscita dell'applicazione
+- Controllare i log per eventuali errori residui
+- Ricompilare l'eseguibile con il nome aggiornato (htservefs-1.0.1.exe)
+
+---
+
+Per supporto e segnalazioni: controllare i log in htservefs.log
+Versione precedente: 1.0.0-beta
+Versione corrente: 1.0.1 (Stable)

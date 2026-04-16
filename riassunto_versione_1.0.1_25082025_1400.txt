@@ -1,0 +1,119 @@
+RIASSUNTO IMPLEMENTAZIONE VERSIONE 1.0.1 - HTServeFS
+=====================================================
+
+Data: 25 Agosto 2025 - Ore 14:00
+Versione: 1.0.1 (Stable Release)
+Versione precedente: 1.0.0-beta
+
+## MODIFICHE IMPLEMENTATE
+
+### 1. AGGIORNAMENTO VERSIONE
+✅ Aggiornata versione da "1.0.0-beta" a "1.0.1" in:
+   - main.go (costante Version)
+   - src/constants/version.ts (APP_VERSION)
+   - latest.json (versione e note di rilascio)
+   - README.md (versione e stato rilascio)
+
+### 2. VALORI DI DEFAULT OTTIMIZZATI
+✅ Configurati nuovi valori di default in main.go e config.ts:
+   - Livello log: "debug"
+   - Dimensione massima log: "5MB"
+   - Soglia lockout: 5 tentativi
+   - Durata lockout: "15m"
+   - Cartella condivisa default: "C:\"
+   - Utenti predefiniti:
+     * admin/admin (ruolo: admin)
+     * user/password (ruolo: read-write)
+     * Rimosso completamente utente "guest"
+
+### 3. MIGLIORAMENTI INTERFACCIA UTENTE
+✅ LoginForm.tsx:
+   - Rimossa completamente la sezione "Credenziali di default"
+   - Eliminato il testo che mostrava admin/admin, user/password, guest/guest
+
+✅ Settings.tsx:
+   - Modificato placeholder da "/path/to/folder" a "Inserisci il percorso della cartella"
+   - Aggiunto testo di esempio: "Esempi: C:\cartella o C:\"
+   - Rimosso testo di debug dalle impostazioni server
+
+### 4. CORREZIONI BUG PRECEDENTI
+✅ FileExplorer.tsx:
+   - Risolto errore quando non ci sono cartelle configurate
+   - Inizializzazione corretta di selectedShare
+
+✅ tray.go:
+   - Migliorata funzione "Esci" per fermare il server prima di chiudere
+
+### 5. DOCUMENTAZIONE E CHANGELOG
+✅ Creato CHANGELOG_v1.0.1.txt con:
+   - Elenco completo delle novità
+   - Dettagli tecnici delle modifiche
+   - Note per l'aggiornamento
+   - Riferimenti ai file modificati
+
+✅ Aggiornato README.md:
+   - Stato cambiato da "Work in Progress - Beta" a "Stable Release"
+   - Versione aggiornata a 1.0.1
+   - Descrizione ottimizzata per rilascio stabile
+
+### 6. BUILD E COMPILAZIONE
+✅ Frontend ricompilato con successo:
+   - npm run build completato
+   - File generati in dist/
+   - Dimensione bundle: 501.30 kB
+
+✅ Eseguibile Go compilato:
+   - Nome file: htservefs-1.0.1.exe
+   - Dimensione: 23.704.576 byte
+   - Compilazione con flag windowsgui per interfaccia Windows
+
+## FILE GENERATI/MODIFICATI
+
+### File Principali Modificati:
+- src/components/auth/LoginForm.tsx
+- src/pages/Settings.tsx
+- src/pages/FileExplorer.tsx
+- tray.go
+- main.go
+- src/constants/version.ts
+- latest.json
+- README.md
+- api/config/config.ts
+
+### File Creati:
+- CHANGELOG_v1.0.1.txt
+- htservefs-1.0.1.exe
+- riassunto_versione_1.0.1_25082025_1400.txt
+
+### Directory Build:
+- dist/ (frontend compilato)
+
+## STATO FINALE
+
+✅ Tutti i task richiesti completati:
+1. ✅ Esempio percorso Windows per cartelle condivise
+2. ✅ Valori di default ottimizzati (log, sicurezza, cartelle)
+3. ✅ Rimosso completamente utente guest e credenziali di default
+4. ✅ Versione aggiornata a 1.0.1 (interfaccia, codice, eseguibile)
+5. ✅ Changelog creato con tutte le novità
+
+## PROSSIMI PASSI CONSIGLIATI
+
+1. Testare l'eseguibile htservefs-1.0.1.exe
+2. Verificare il corretto funzionamento della tray
+3. Controllare i nuovi valori di default
+4. Testare la pagina di login senza credenziali mostrate
+5. Verificare gli esempi Windows nelle impostazioni cartelle
+
+## NOTE TECNICHE
+
+- Rilascio stabile raccomandato per produzione
+- Compatibilità mantenuta con configurazioni esistenti
+- Nuovi valori di default applicati solo a nuove installazioni
+- Sicurezza migliorata con rimozione credenziali visibili
+- Interfaccia ottimizzata per ambiente Windows
+
+---
+Implementazione completata con successo
+Tempo totale: ~2 ore
+Stato: COMPLETATO ✅

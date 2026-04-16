@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HtserveFS - Fast and Secure File Server</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .language-switch {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+            margin-right: 20px;
+        }
+
+        .lang-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .lang-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .lang-button.active {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+
+        .version-badge {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .beta-disclaimer {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: #333;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 80px 0;
+        }
+
+        .benefits-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .benefits-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .benefits-list li::before {
+            content: "✓";
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .benefits-image {
+            text-align: center;
+        }
+
+        .benefits-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tech Specs */
+        .tech-specs {
+            background: white;
+            padding: 80px 0;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .spec-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .spec-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-item p {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 2rem;
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .benefits-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-card, .spec-item {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="./public/htservefs-icon.svg" alt="HtserveFS Logo">
+                    <h1>HtserveFS</h1>
+                    <span class="version-badge" data-en="v1.0.0 Beta" data-it="v1.0.0 Beta">v1.0.0 Beta</span>
+                </div>
+                <div class="language-switch">
+                    <button class="lang-button active" onclick="switchLanguage('en')" id="lang-en">English</button>
+                    <button class="lang-button" onclick="switchLanguage('it')" id="lang-it">Italiano</button>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#features" data-en="Features" data-it="Caratteristiche">Features</a></li>
+                        <li><a href="#benefits" data-en="Benefits" data-it="Vantaggi">Benefits</a></li>
+                        <li><a href="#specs" data-en="Specs" data-it="Specifiche">Specs</a></li>
+                        <li><a href="#contact" data-en="Contact" data-it="Contatti">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Beta Disclaimer -->
+    <div class="beta-disclaimer">
+        <span data-en="⚠️ Beta Version 1.0.0 - Currently in development. Fully functional but may contain minor bugs." data-it="⚠️ Versione Beta 1.0.0 - Attualmente in sviluppo. Completamente funzionante ma potrebbe contenere piccoli bug.">⚠️ Beta Version 1.0.0 - Currently in development. Fully functional but may contain minor bugs.</span>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2 data-en="Fast and Secure File Server" data-it="File Server Veloce e Sicuro">Fast and Secure File Server</h2>
+            <p data-en="Transfer files of any size quickly, securely and without intermediaries. Manage your files with total control and exceptional performance." data-it="Trasferisci file di qualsiasi dimensione in modo veloce, sicuro e senza intermediari. Gestisci i tuoi file con controllo totale e prestazioni eccezionali.">Transfer files of any size quickly, securely and without intermediaries. Manage your files with total control and exceptional performance.</p>
+            <a href="#features" class="cta-button" data-en="Discover Features" data-it="Scopri le Funzionalità">Discover Features</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title" data-en="Key Features" data-it="Caratteristiche Principali">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 data-en="Ultra-Fast Transfer" data-it="Trasferimento Ultra-Veloce">Ultra-Fast Transfer</h3>
+                    <p data-en="Unlimited file size transfer with optimized speeds. No size limits, maximum transfer velocity." data-it="Spostamento di file di dimensione illimitata con velocità ottimizzate. Nessun limite di dimensione, massima velocità di trasferimento.">Unlimited file size transfer with optimized speeds. No size limits, maximum transfer velocity.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3 data-en="Direct Connection" data-it="Connessione Diretta">Direct Connection</h3>
+                    <p data-en="Fast and direct file transfer without intermediaries. Your data travels directly from server to client without intermediate steps." data-it="Trasferimento file veloce e diretto senza intermediari. I tuoi dati viaggiano direttamente dal server al client senza passaggi intermedi.">Fast and direct file transfer without intermediaries. Your data travels directly from server to client without intermediate steps.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h3 data-en="Custom Folder Management" data-it="Gestione Cartelle Personalizzata">Custom Folder Management</h3>
+                    <p data-en="Precise selection of which folders to make accessible. Granular control over permissions and selective access to resources." data-it="Selezione precisa di quali cartelle rendere accessibili. Controllo granulare sui permessi e accesso selettivo alle risorse.">Precise selection of which folders to make accessible. Granular control over permissions and selective access to resources.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 data-en="Advanced User Management" data-it="Gestione Utenti Avanzata">Advanced User Management</h3>
+                    <p data-en="Complete authentication and authorization system. Customizable roles: admin, read-write, readonly with specific permissions." data-it="Sistema completo di autenticazione e autorizzazione. Ruoli personalizzabili: admin, read-write, readonly con permessi specifici.">Complete authentication and authorization system. Customizable roles: admin, read-write, readonly with specific permissions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 data-en="Advanced Security" data-it="Sicurezza Avanzata">Advanced Security</h3>
+                    <p data-en="JWT authentication, HTTPS, brute force protection and real-time monitoring system." data-it="Autenticazione JWT, HTTPS, protezione contro attacchi brute force e sistema di monitoraggio in tempo reale.">JWT authentication, HTTPS, brute force protection and real-time monitoring system.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 data-en="Real-time Monitoring" data-it="Monitoraggio Real-time">Real-time Monitoring</h3>
+                    <p data-en="Complete dashboard to monitor active connections, resource usage, system logs and detailed statistics." data-it="Dashboard completa per monitorare connessioni attive, utilizzo risorse, log di sistema e statistiche dettagliate.">Complete dashboard to monitor active connections, resource usage, system logs and detailed statistics.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 data-en="Modern Web Interface" data-it="Interfaccia Web Moderna">Modern Web Interface</h3>
+                    <p data-en="Intuitive and responsive user interface. Access from any device with modern web browser." data-it="Interfaccia utente intuitiva e responsive. Accesso da qualsiasi dispositivo con browser web moderno.">Intuitive and responsive user interface. Access from any device with modern web browser.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3 data-en="Flexible Configuration" data-it="Configurazione Flessibile">Flexible Configuration</h3>
+                    <p data-en="Complete configuration via JSON files. Customization of ports, SSL, authentication and logging." data-it="Configurazione completa tramite file JSON. Personalizzazione di porte, SSL, autenticazione e logging.">Complete configuration via JSON files. Customization of ports, SSL, authentication and logging.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 data-en="Optimized Performance" data-it="Performance Ottimizzate">Optimized Performance</h3>
+                    <p data-en="High-performance architecture with efficient memory management and optimizations for large files." data-it="Architettura ad alte prestazioni con gestione efficiente della memoria e ottimizzazioni per file di grandi dimensioni.">High-performance architecture with efficient memory management and optimizations for large files.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="benefits">
+        <div class="container">
+            <div class="benefits-content">
+                <div class="benefits-text">
+                    <h2 data-en="Why Choose HtserveFS?" data-it="Perché Scegliere HtserveFS?">Why Choose HtserveFS?</h2>
+                    <ul class="benefits-list">
+                        <li data-en="No file size limits" data-it="Nessun limite di dimensione file">No file size limits</li>
+                        <li data-en="Optimized transfer speeds" data-it="Velocità di trasferimento ottimizzate">Optimized transfer speeds</li>
+                        <li data-en="Total control over permissions" data-it="Controllo totale sui permessi">Total control over permissions</li>
+                        <li data-en="Enterprise-grade security" data-it="Sicurezza enterprise-grade">Enterprise-grade security</li>
+                        <li data-en="Modern and intuitive interface" data-it="Interfaccia moderna e intuitiva">Modern and intuitive interface</li>
+                        <li data-en="Complete system monitoring" data-it="Monitoraggio completo del sistema">Complete system monitoring</li>
+                        <li data-en="Simple and flexible configuration" data-it="Configurazione semplice e flessibile">Simple and flexible configuration</li>
+                        <li data-en="HTTPS and SSL support" data-it="Supporto HTTPS e SSL">HTTPS and SSL support</li>
+                        <li data-en="Multi-role user management" data-it="Gestione utenti multi-ruolo">Multi-role user management</li>
+                        <li data-en="Detailed logs and audit trail" data-it="Log dettagliati e audit trail">Detailed logs and audit trail</li>
+                    </ul>
+                </div>
+                <div class="benefits-image">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 3rem; border-radius: 15px; color: white; text-align: center;">
+                        <h3 style="font-size: 2rem; margin-bottom: 1rem;" data-en="🎯 Ideal Use Cases" data-it="🎯 Casi d'Uso Ideali">🎯 Ideal Use Cases</h3>
+                        <div style="display: grid; gap: 1rem; text-align: left;">
+                            <p data-en="• <strong>Companies:</strong> Secure file sharing between teams" data-it="• <strong>Aziende:</strong> Condivisione sicura di file tra team">• <strong>Companies:</strong> Secure file sharing between teams</p>
+                            <p data-en="• <strong>Developers:</strong> Build and asset distribution" data-it="• <strong>Sviluppatori:</strong> Distribuzione di build e asset">• <strong>Developers:</strong> Build and asset distribution</p>
+                            <p data-en="• <strong>Media:</strong> Heavy video/audio file transfer" data-it="• <strong>Media:</strong> Trasferimento di file video/audio pesanti">• <strong>Media:</strong> Heavy video/audio file transfer</p>
+                            <p data-en="• <strong>Backup:</strong> Data archiving and recovery" data-it="• <strong>Backup:</strong> Archiviazione e recupero dati">• <strong>Backup:</strong> Data archiving and recovery</p>
+                            <p data-en="• <strong>Collaboration:</strong> Shared workspaces" data-it="• <strong>Collaborazione:</strong> Workspace condivisi">• <strong>Collaboration:</strong> Shared workspaces</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Specs -->
+    <section id="specs" class="tech-specs">
+        <div class="container">
+            <h2 class="section-title" data-en="Technical Specifications" data-it="Specifiche Tecniche">Technical Specifications</h2>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <h3 data-en="Language" data-it="Linguaggio">Language</h3>
+                    <p>Go + TypeScript</p>
+                </div>
+                <div class="spec-item">
+                    <h3 data-en="Frontend" data-it="Frontend">Frontend</h3>
+                    <p>React + Vite</p>
+                </div>
+                <div class="spec-item">
+                    <h3 data-en="Security" data-it="Sicurezza">Security</h3>
+                    <p>JWT + HTTPS</p>
+                </div>
+                <div class="spec-item">
+                    <h3 data-en="Database" data-it="Database">Database</h3>
+                    <p data-en="File-based Config" data-it="File-based Config">File-based Config</p>
+                </div>
+                <div class="spec-item">
+                    <h3 data-en="Platforms" data-it="Piattaforme">Platforms</h3>
+                    <p>Windows, Linux, macOS</p>
+                </div>
+                <div class="spec-item">
+                    <h3 data-en="Deployment" data-it="Deployment">Deployment</h3>
+                    <p data-en="Single Binary" data-it="Single Binary">Single Binary</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>HtserveFS</h3>
+                    <p data-en="Modern file server for fast and secure transfers. Designed for performance, security and ease of use." data-it="Il file server moderno per trasferimenti veloci e sicuri. Progettato per prestazioni, sicurezza e facilità d'uso.">Modern file server for fast and secure transfers. Designed for performance, security and ease of use.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 data-en="Features" data-it="Caratteristiche">Features</h3>
+                    <p><a href="#features" data-en="Fast transfer" data-it="Trasferimento veloce">Fast transfer</a></p>
+                    <p><a href="#features" data-en="Advanced security" data-it="Sicurezza avanzata">Advanced security</a></p>
+                    <p><a href="#features" data-en="User management" data-it="Gestione utenti">User management</a></p>
+                    <p><a href="#features" data-en="Real-time monitoring" data-it="Monitoraggio real-time">Real-time monitoring</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3 data-en="Support" data-it="Supporto">Support</h3>
+                    <p data-en="Complete documentation" data-it="Documentazione completa">Complete documentation</p>
+                    <p data-en="Guided configuration" data-it="Configurazione guidata">Guided configuration</p>
+                    <p data-en="Detailed logs" data-it="Log dettagliati">Detailed logs</p>
+                    <p data-en="System monitoring" data-it="Monitoraggio sistema">System monitoring</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-en="&copy; 2024 HtserveFS v1.0.0 Beta. High-performance file server for secure and fast transfers." data-it="&copy; 2024 HtserveFS v1.0.0 Beta. File Server ad alte prestazioni per trasferimenti sicuri e veloci.">&copy; 2024 HtserveFS v1.0.0 Beta. High-performance file server for secure and fast transfers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language switching functionality
+        let currentLanguage = localStorage.getItem('htservefs-language') || 'en';
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('htservefs-language', lang);
+            
+            // Update active button
+            document.querySelectorAll('.lang-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('lang-' + lang).classList.add('active');
+            
+            // Update HTML lang attribute
+            document.getElementById('html-root').setAttribute('lang', lang);
+            
+            // Update page title
+            if (lang === 'en') {
+                document.title = 'HtserveFS - Fast and Secure File Server';
+            } else {
+                document.title = 'HtserveFS - File Server Veloce e Sicuro';
+            }
+            
+            // Update all translatable elements
+            document.querySelectorAll('[data-en][data-it]').forEach(element => {
+                const text = element.getAttribute('data-' + lang);
+                if (text) {
+                    element.innerHTML = text;
+                }
+            });
+        }
+
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            switchLanguage(currentLanguage);
+        });
+
+        // Smooth scrolling per i link di navigazione
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animazione al scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Osserva tutti gli elementi con animazione
+        document.querySelectorAll('.feature-card, .spec-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

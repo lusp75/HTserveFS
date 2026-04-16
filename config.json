@@ -1,0 +1,55 @@
+{
+  "server": {
+    "port": 8000,
+    "host": "0.0.0.0",
+    "tls": {
+      "enabled": true,
+      "port": 8001,
+      "cert_file": "cert.pem",
+      "key_file": "key.pem",
+      "auto_cert": true,
+      "disable_http": false
+    }
+  },
+  "files": {
+    "shares": [
+      {
+        "path": "C:\\",
+        "alias": "C",
+        "readonly": false
+      }
+    ],
+    "max_file_size": "100MB",
+    "allowed_extensions": [
+      "*"
+    ]
+  },
+  "auth": {
+    "users": [
+      {
+        "username": "admin",
+        "password_hash": "$2b$12$g0D3rF3ZANsrbFAuBbYVl.AiWTbUCCW69/6WIALeR45f/bR2ZE4hW",
+        "role": "admin"
+      },
+      {
+        "username": "user",
+        "password_hash": "$2b$12$xabxOUhvHrqLlygr2a9D7O4OUTFCVtnpcmO6yhXztwnAjKZwbZLYW",
+        "role": "read-write"
+      }
+    ],
+    "lockout_threshold": 5,
+    "lockout_duration": "15m",
+    "session_timeout": "3600",
+    "jwt_secret": "S6UVjjWGaH7n0IkG51aqxfG9REmchBsNtUqC0PRSEBYSwBTxmXmCb8bdbjYK3zQKXEL7izErJxM="
+  },
+  "throttling": {
+    "default_kbps": 0,
+    "per_user_limits": null
+  },
+  "logging": {
+    "level": "debug",
+    "file": "htservefs.log",
+    "max_size": "1MB",
+    "rotate": true
+  }
+}

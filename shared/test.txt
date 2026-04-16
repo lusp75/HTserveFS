@@ -1,0 +1,9 @@
+Questo è un file di test per verificare il funzionamento del File Explorer di HtserveFS.
+
+Il sistema dovrebbe essere in grado di:
+- Visualizzare questo file
+- Permettere il download
+- Mostrare le informazioni del file
+- Navigare nella directory
+
+Data di creazione: 2025-01-24

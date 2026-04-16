@@ -1,0 +1,58 @@
+{
+  "server": {
+    "port": 8000,
+    "host": "0.0.0.0",
+    "tls": {
+      "enabled": true,
+      "port": 8001,
+      "cert_file": "cert.pem",
+      "key_file": "key.pem",
+      "auto_cert": true,
+      "disable_http": false
+    }
+  },
+  "files": {
+    "shares": [
+      {
+        "path": "C:\\",
+        "alias": "Shared",
+        "readonly": false
+      }
+    ],
+    "max_file_size": "100MB",
+    "allowed_extensions": [
+      "*"
+    ]
+  },
+  "auth": {
+    "users": [
+      {
+        "username": "admin",
+        "password_hash": "$2b$12$jPo0elbKLe8kS0xWIc3zfOpw.n0QKjqvPlMjaWfuJo8qpsLt7l8qG",
+        "role": "admin"
+      },
+      {
+        "username": "user",
+        "password_hash": "$2b$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+        "role": "read-write"
+      }
+    ],
+    "lockout_threshold": 5,
+    "lockout_duration": "15m",
+    "session_timeout": "24h",
+    "jwt_secret": "p3t/0Hhf+i33SdNUZulHtvk5Q0DAFXCgdhEFUnYC2e7K1odzhkp6x2963yXPLy/usmIf9xJ0hQu8/oV/+FznX5XeTwZH1szHBkDoUihhxA=="
+  },
+  "throttling": {
+    "default_kbps": 1024,
+    "per_user_limits": {
+      "admin": 0,
+      "user": 512
+    }
+  },
+  "logging": {
+    "level": "debug",
+    "file": "htservefs.log",
+    "max_size": "5MB",
+    "rotate": true
+  }
+}
